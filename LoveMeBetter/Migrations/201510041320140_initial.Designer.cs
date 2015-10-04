@@ -13,7 +13,7 @@ namespace LoveMeBetter.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201510011943116_initial"; }
+            get { return "201510041320140_initial"; }
         }
         
         string IMigrationMetadata.Source

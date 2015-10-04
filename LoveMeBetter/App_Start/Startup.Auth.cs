@@ -1,4 +1,5 @@
 ﻿using System;
+using LoveMeBetter.Models;
 using LoveMeBetter.Models.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
