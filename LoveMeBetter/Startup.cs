@@ -12,7 +12,7 @@ namespace LoveMeBetter
         {
             ConfigureAuth(app);
 
-            var container = AutofacBootstrapper.InitializeContainer();
+            var container = AutofacBootstrapper.GetContainer();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 
             app.UseAutofacMiddleware(container);

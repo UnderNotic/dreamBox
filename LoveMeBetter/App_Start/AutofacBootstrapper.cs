@@ -2,34 +2,61 @@
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
+using LoveMeBetter.Models;
+using LoveMeBetter.Models.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security.DataProtection;
 
 namespace LoveMeBetter
 {
     public static class AutofacBootstrapper
     {
-        public static IContainer InitializeContainer()
-        {
-            var builder = new ContainerBuilder();
+        private static readonly ContainerBuilder _builder = new ContainerBuilder();
+        private static IContainer _container;
 
+        public static IContainer GetContainer()
+        {
+            if (_container == null)
+            {
+                InitializeContainer();
+            }
+            return _container;
+        }
+
+        private static void InitializeContainer()
+        {
             // Register your MVC controllers.
-            builder.RegisterControllers(typeof(MvcApplication).Assembly);
+            _builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             // OPTIONAL: Register model binders that require DI.
-            builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
-            builder.RegisterModelBinderProvider();
+            _builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
+            _builder.RegisterModelBinderProvider();
 
             // OPTIONAL: Register web abstractions like HttpContextBase.
-            builder.RegisterModule<AutofacWebTypesModule>();
+            _builder.RegisterModule<AutofacWebTypesModule>();
 
             // OPTIONAL: Enable property injection in view pages.
-            builder.RegisterSource(new ViewRegistrationSource());
+            _builder.RegisterSource(new ViewRegistrationSource());
 
             // OPTIONAL: Enable property injection into action filters.
-            builder.RegisterFilterProvider();
+            _builder.RegisterFilterProvider();
 
-            // Set the dependency resolver to be Autofac.
-            var container = builder.Build();
-            return container;
+            RegisterAppModules();
+
+            _container = _builder.Build();
+        }
+
+        private static void RegisterAppModules()
+        {
+            // intance per lifetime works the same as per request here and are better for testing
+            _builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerLifetimeScope();
+            _builder.RegisterType<UserStore<ApplicationUser>>().AsImplementedInterfaces().InstancePerLifetimeScope(); 
+            _builder.Register(c => new IdentityFactoryOptions<ApplicationUserManager>() { DataProtectionProvider = new DpapiDataProtectionProvider("LoveMeBetter") }); 
+            _builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerLifetimeScope();
+            _builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerLifetimeScope();
+
+            _builder.RegisterType<ApplicationDbInitializer>().AsSelf().InstancePerLifetimeScope();
         }
     }
 }

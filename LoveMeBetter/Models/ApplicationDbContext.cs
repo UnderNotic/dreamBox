@@ -7,18 +7,22 @@ namespace LoveMeBetter.Models
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        private readonly ApplicationDbInitializer _applicationDbInitializer;
         public DbSet<Order.Order> Orders { get; set; }
         public DbSet<OrderDetails> OrdersDetails { get; set; }
-        public DbSet<Product> Product { get; set; } 
+        public DbSet<Product> Product { get; set; }
+        public DbSet<RandomizedProductCategory> RandomizedProductCategories { get; set; } 
 
-        public ApplicationDbContext()
+        public ApplicationDbContext(ApplicationDbInitializer applicationDbInitializer)
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            _applicationDbInitializer = applicationDbInitializer;
+            InitializeDatabase();
         }
 
-        public static ApplicationDbContext Create()
+        public void InitializeDatabase()
         {
-            return new ApplicationDbContext();
+            Database.SetInitializer(_applicationDbInitializer);
         }
 
     }

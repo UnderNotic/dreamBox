@@ -204,6 +204,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\ApplicationDbInitializer.cs" />
     <Compile Include="Models\Identity\AccountViewModels.cs" />
     <Compile Include="Models\Identity\IdentityModels.cs" />
     <Compile Include="Models\Identity\ManageViewModels.cs" />
@@ -283,6 +284,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Wrappers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
