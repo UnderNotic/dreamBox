@@ -51,6 +51,8 @@ namespace LoveMeBetter
         {
             // intance per lifetime works the same as per request here and are better for testing
             _builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerLifetimeScope();
+            _builder.RegisterType<ApplicationDbMigrationContext>().AsSelf().InstancePerDependency();
+
             _builder.RegisterType<UserStore<ApplicationUser>>().AsImplementedInterfaces().InstancePerLifetimeScope(); 
             _builder.Register(c => new IdentityFactoryOptions<ApplicationUserManager>() { DataProtectionProvider = new DpapiDataProtectionProvider("LoveMeBetter") }); 
             _builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerLifetimeScope();

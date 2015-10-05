@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using LoveMeBetter.Models.Identity;
 using LoveMeBetter.Models.Order;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -24,6 +25,5 @@ namespace LoveMeBetter.Models
         {
             Database.SetInitializer(_applicationDbInitializer);
         }
-
     }
 }

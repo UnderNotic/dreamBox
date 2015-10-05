@@ -8,7 +8,7 @@ namespace LoveMeBetter.Models.Order
     public class Product
     {
         [Key]
-        [MaxLength(100)]
+        [StringLength(100)]
         public string Name { get; set; }
         
         [Required]
