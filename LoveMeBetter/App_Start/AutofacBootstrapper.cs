@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿using System.Data.Entity;
+using System.Net;
+using System.Reflection;
+using System.Web;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
@@ -6,6 +9,7 @@ using LoveMeBetter.Models;
 using LoveMeBetter.Models.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.DataProtection;
 
 namespace LoveMeBetter
@@ -50,15 +54,14 @@ namespace LoveMeBetter
         private static void RegisterAppModules()
         {
             // intance per lifetime works the same as per request here and are better for testing
-            _builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerLifetimeScope();
-            _builder.RegisterType<ApplicationDbMigrationContext>().AsSelf().InstancePerDependency();
-
-            _builder.RegisterType<UserStore<ApplicationUser>>().AsImplementedInterfaces().InstancePerLifetimeScope(); 
-            _builder.Register(c => new IdentityFactoryOptions<ApplicationUserManager>() { DataProtectionProvider = new DpapiDataProtectionProvider("LoveMeBetter") }); 
+            _builder.RegisterType<ApplicationDbContext>().As<DbContext>().InstancePerLifetimeScope();
+            _builder.RegisterType<UserStore<ApplicationUser>>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            _builder.Register<IdentityFactoryOptions<ApplicationUserManager>>(c => new IdentityFactoryOptions<ApplicationUserManager> { DataProtectionProvider = new DpapiDataProtectionProvider("LoveMeBetter") }); 
             _builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerLifetimeScope();
+            _builder.Register<IAuthenticationManager>(_ => HttpContext.Current.GetOwinContext().Authentication).InstancePerLifetimeScope();
             _builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerLifetimeScope();
-
             _builder.RegisterType<ApplicationDbInitializer>().AsSelf().InstancePerLifetimeScope();
+
         }
     }
 }

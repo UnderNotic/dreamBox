@@ -7,13 +7,13 @@ namespace LoveMeBetter.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class initial : IMigrationMetadata
+    public sealed partial class init9 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(init9));
         
         string IMigrationMetadata.Id
         {
-            get { return "201510052109410_initial"; }
+            get { return "201510061958414_init9"; }
         }
         
         string IMigrationMetadata.Source
