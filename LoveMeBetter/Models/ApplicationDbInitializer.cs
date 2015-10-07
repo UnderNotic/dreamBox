@@ -43,6 +43,21 @@ namespace LoveMeBetter.Models
                 applicationUserManager.AddToRole(adminUser.Id, "Admin");
                 }
             }
+
+            // InitCreate test users
+            user = applicationUserManager.FindByName("testUser");
+            if (user == null)
+            {
+                var testUser = new ApplicationUser()
+                {
+                    UserName = "testUser",
+                    Email =  "testUser@user.com",
+                };
+               applicationUserManager.Create(testUser, "testUser123!");
+            }
+
+
+
         }
     }
 }

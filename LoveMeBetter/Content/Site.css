@@ -21,13 +21,23 @@ section {
     padding: 50px 0;
 }
 
-section.white {
+    section.white {
+    }
+
+    section.purple {
+        background: #772953;
+        color: #fff;
+        border-bottom: 2px solid #511c39;
+        border-top: 2px solid #511c39;
+    }
+
+
+.clickableHeader a:hover {
+    color: black;
+    font-weight: 700;
+    text-decoration: none;
 }
 
-section.purple {
-    background: #772953;
-    color: #fff;
-    border-bottom: 2px solid #511c39;
-    border-top: 2px solid #511c39;
-
+.clickableHeader a {
+    color: black;
 }
